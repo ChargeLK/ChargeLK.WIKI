@@ -1,0 +1,928 @@
+Dc Charging Pile for EV
+User manual
+Product name:Wall-mounted DC charging pile-CE
+Product power:20KW-40KW
+Edition:V1.0
+(Please read this user manual carefully before using this product)Introduction
+Thank you for using our products, we will be happy to provide you with the best
+service, this manual may contain technical inaccuracies or typographical errors,
+please forgive us;
+We may improve or update the products described in this manual from time to time;
+You can obtain the company's technical support and related information online
+or offline;
+Safety Precautions:
+1) Do not place inflammable, explosive or combustible materials, chemicals,
+combustible gases and other dangerous materials near the charging pile.
+2) Keep the charging gun head clean and dry. If there is dirt, please wipe it
+with a clean dry cloth. Do not touch the charging gun core with your hand when
+energized.
+3) Do not use the charging pile when the charging gun or charging cable is
+defective, cracked, worn, broken, or the charging cable is exposed. If you find
+any defects, please contact the staff in time.
+4) Do not attempt to disassemble, repair, modify the charging pile, if there is
+maintenance, modification needs, please contact the staff, improper operation
+may cause damage, water leakage, leakage and other conditions;
+5) It is strictly prohibited to remove the gun head during the charging process
+to ensure the safety of life and vehicles during the charging process;
+6) It is strictly prohibited to continue to use this product for charging in case
+of failure;
+7) If any leakage or insulation failure occurs during the operation of this
+product, please press the emergency stop button immediately；Catalogue
+Act 1 Safety notice ........................................................... 1
+Act 2 Summarize ............................................................... 2
+Act 3 Product function characteristics ......................................... 4
+Act 4 Safety requirement .......................................................6
+Act 5 Installation instructions and dimensions ................................. 7
+Act 6 Parameter description and configuration ................................. 17
+Act 7 Operating process .......................................................23
+Act 8 Packaging transportation storage ........................................ 26
+Act 9 Fault .................................................................. 27
+Act 10 Routine maintenance ....................................................30
+Act 11 After sale ............................................................ 32EV charging pile user manual
+Act 1 Safety notice
+1.1 Symbolic convention
+The following marks may appear in this manual and in charging pile products, and they represent
+the following meanings:
+Implication
+Symbol
+“Warn”The sign indicates danger
+Pay attention to the procedures, practices, or incorrect operations that may
+result in personal injury or death. Actions after the warning flag can only be
+performed if the conditions are fully understood and satisfied.
+“Be careful”The sign indicates danger
+Note that procedures, experiments or incorrect operation may result in damage
+or destruction of the charging device, and the operation after the "caution" mark
+should only be carried out when the specified conditions are fully understood
+and met.
+“Tips”The logo indicates the use of tips and useful information
+Tips and useful information are marked with "tips". It does not contain
+information warning of dangerous or harmful features.
+“PE”The label indicates the ground connection point
+This symbol indicates information that is particularly important for the system
+to maintain optimal operating status. Follow the instructions strictly.
+Indicates the grounding connection point.
+1.2 Safety tips
+Failure to follow safety instructions may result in life danger, injury, and equipment
+damage. Disclaim any resulting claim:
+1.Electrical hazards:
+Only trained, qualified and authorized electrical professionals shall be responsible
+for installation. When commissioning and maintaining the charging pile for the first
+time, existing standards and installation regulations shall be observed during
+operation. See installation instructions for details:
+2.Electrical Hazard/Fire Hazard:
+Do not use a damaged, worn or dirty charging gun.
+1EV charging pile user manual
+3.The owner (end customer) must take care that the charge is run in perfect condition:
+1)It is necessary to check regularly for damage on the charging gun of the charging
+device and check the case for damage (visual inspection)。
+2)If the charging device is damaged, it must be turned off and replaced immediately
+3)The charging device repair operation shall not be performed without authorization,
+only the manufacturer shall perform this operation (replacing the charging device).
+4) Do not modify or modify the charging device without authorization.
+5)Do not remove signs such as safety symbols, warnings, nameplates, labels, or pipeline
+markings.
+4.When connecting an electric vehicle to a charging station, no extension cable shall
+be used.
+5.Connect only to electric vehicles or their charging devices, do not connect to other
+loads (power tools, etc.)
+6.Hold the plug when pulling out the charging gun. Do not pull the cable.
+7.Do not bend, squeeze or tilt the charging gun to cause mechanical damage.
+8.Do not contact the contact surface with heat, dirt or water.
+9.Some vehicles may produce toxic or explosive gases in indoor areas during charging,
+so it is necessary to have an external ventilation system.
+10.Do not use spray water to clean the charging device.
+1EV charging pile user manual
+Act 2 Summarize
+2.1 Product introduction
+The DC wall-mounted all-in-one machine is a product that provides charging function for
+electric vehicles, which is suitable for various models; The whole pile is small and light,
+easy to install; Automatic charging control, with corresponding control, billing, charge,
+communication functions; High protection level, complete protection functions and so on.
+Support outdoor independent installation. Good man-machine interface, easy to operate, fast.
+2.2 Scope of application:
+ Public operation;
+ Park area;
+ Material flow;
+ Environmental sanitation;
+ 4S store
+ Travel commuting and other scenes
+2EV charging pile user manual
+2.3 Product technical parameters
+Model
+CE-JSDC38030A-BG3
+CE-JSDC380046A-BG3CE-JSDC380060A-BG3
+30KW40KW
+20KW
+Power
+Dimension(W*D*H)480mm*228mm*665mmWeight：Modular20KW/About:50kgInstallation typeWall hanging/floorClass of protectionIP54（Outdoors）CoolingForced air coolingCharging cable length3m、5m (Customizable)Ac input voltageAC400V±10％(3P+N+PE)Phase linehree-phase five-wire system/L1、L2、L3、N、PE
+Current:THD<5%Grid frequency45Hz to 65HzPower factor≥0.98Rated output power20KW/30KW/40KW（Selectable）Output voltage20KW/DC50V to 750VOutput current20KW/0-50A30KW/0-100A40KW/0-133A
+0-20KW0-30KW0-40KW
+30KW/About:52kg
+40KW/About:57kg
+Machine
+Input
+Exportation
+Output power
+30KW/40KW:DC200V to 1000V
+Efficiency≥95%
+Accuracy level0.5
+Pulse constant50 imp/kwh
+Operating temperature-30℃to50℃ （50℃to70℃ Derated output）
+Storage temperature-40℃to+70℃
+Humidness5％~95％（No condensation）
+Altitude≤2000 m （Full load output）
+Reveal7 inch touch screen
+ScramPress to stop
+Starting modePlug and charge, swipe card, scan code (optional)
+Billing modeAutomatic charging fixed power fixed amount fixed time
+(optional)
+Environment
+Screen
+Charging interface standardGrounding, over current, over voltage, over
+temperature, short circuit, insulation, polarity,
+surge, emergency stop, abnormal connection alarm,
+etc
+IEC 62196-3 TYPE2
+Charging connection modeIEC 61851
+Pile and car communicationPLC way ， Conform to DIN70121/ISO15118 Standard ，
+disposition OCPP1.6 agreement
+Communication modeEthernet、4G（Selectable）
+Protection function
+Secure
+3EV charging pile user manual
+Act 3 Product function characteristics
+3.1 Main function
+1）Input protection
+With input over and under voltage, three-phase imbalance, lack of equal protection
+function.
+2）Output protection
+With the output over and under voltage, over current, over temperature, overload, short
+circuit, insulation detection, battery reverse connection, battery current backflow
+and other protection functions
+3）Remote control
+When an exception occurs, remote start and stop control and remote upgrade can be
+implemented through the background
+4）System exception protection
+During the charging process, in case of emergency (starting the emergency stop switch,
+communication failure with the battery management system, control guidance, input
+power failure, etc.), the charging function will disconnect the DC output contactor
+within 100ms, and the output voltage will drop to less than 60V within 1s.
+5）Overtemperature protection
+① If the air filter is blocked, the cooling fan fails, or the internal temperature
+of the charging pile exceeds the overtemperature protection value, the charging
+pile reduces the output power or cuts off the DC output, and an alarm is generated.
+② When the temperature of the DC charging port exceeds the overtemperature protection
+value (temperature sensor on the charging gun), the charging pile reduces the output
+power or cuts off the DC output, and generates an alarm.
+③ When the battery temperature exceeds the overtemperature protection value, the BMS
+demand will be reduced, and the charging pile will automatically reduce the output
+power according to the demand, so as to protect the battery and extend the service
+life of the battery.
+6）Insulation detection function
+The charging pile is provided with an insulation detection circuit. After the vehicle
+interface is connected and before the vehicle charging loop contactor is closed, the
+charging pile closes the DC output loop contactor to test the internal insulation
+(including the charging cable). If the insulation performance is abnormal, the
+charging will not start.
+4EV charging pile user manual
+3.2 Product characteristics
+1) High performance price ratio
+ The whole charging pile is made of high-strength sheet metal material, which is durable.
+The surface is sprayed with special outdoor anti-corrosion powder to effectively protect
+the shell from rust, rain and dust. The protection grade is IP54, which can meet the
+requirements of outdoor operation.
+ Charging module adopts ultra-wide power range, supports automatic power distribution,
+independent charging, improves equipment utilization, customized peak and valley
+charging function, and saves charging cost.
+2) High charging efficiency
+Because DC charging can directly transmit electrical energy to the battery of the electric
+vehicle, eliminating the process of alternating current conversion, the charging efficiency
+is high.
+3) Wide range of use
+Dc charging pile is suitable for occasions that require fast charging, such as high-speed
+public service areas, urban charging stations, large parking lots, etc.
+4) Intelligent management
+Modern DC charging piles usually have intelligent management functions, which can monitor
+the battery status in real time, adjust charging parameters, and achieve remote monitoring
+and management through the network.
+5EV charging pile user manual
+Act 4 Safety requirement
+4.1 Allowable surface temperature
+Under the condition of rated current and environment 40℃, DC charging pile:
+The maximum allowable temperature
+of the touching surface of the hand is
+The maximum permissible temperature of a surface
+that the user may touch but cannot handle is
+Metal part：50℃Metal part：60℃
+Non-metal part：60℃Non-metal part：85℃
+4.2 Electric shock protection
+The general requirements for electric shock protection are under normal conditions or under
+occasional failure conditions:
+1）The exposed part of the wire should not be charged.
+2）Dangerous live parts should be avoided.
+4.3 Electrical clearance and creepage distance
+The electrical clearance and creepage distance of the charging pile conform to the
+provisions of Table 1：
+Table 1 Electrical clearance and creepage distance
+Rated insulation voltage Ui（V）Electrical clearance（mm）Creepage distance（mm）
+Ui≤603.03.0
+60＜Ui≤3005.06.0
+300＜Ui≤7008.010.0
+700＜Ui≤95014.020.0
+Note 1: When the rated insulation voltage of the main circuit is inconsistent with
+that of the control circuit or the auxiliary circuit, the electrical gap and creepage
+distance can be selected according to their rated values respectively.
+Note 2: The electrical gap and creepage distance between the conducting part of the
+main circuit or control circuit with different ratings should be selected according
+to the highest rated insulation voltage.
+Note 3: The electrical gap between small bus bars, bus bars or exposed live conductors
+of different levels, and between exposed live conductors and uninsulated unlive
+conductors shall not be less than 12mm, and the creepage distance shall not be less
+than 20mm.
+6EV charging pile user manual
+Act 5 Installation instructions and dimensions
+ Only trained, qualified and authorized professionals are responsible for the
+installation
+5.1 Product configuration
+UnitStandard configurationUnitStandard configuration
+Charging pile1PCSTest card2PCS（Swipe card devices only）
+Charging gun1The/PCSExpansion screw4PCS
+User manual1PCSconformity1PCS
+5.2 Installation requirements
+The environmental conditions for the installation site of the charging pile are
+as follows: Avoid installing a place without data coverage, avoid metal covers
+(at the antenna), and avoid premature damage caused by dust accumulation in the
+equipment
+Environmental
+conditionProposed scopeEnvironmental
+conditionProposed scope
+Ambient TEMP-30℃ to +50℃Wireless
+communication4G Good signal
+Altitude≤2000 mMoldNO
+Humidness
+5％~95％
+No contaminants, such as salt,
+Corrosive substance
+（No condensation）
+acid, smoke, etc
+3
+Dustiness≤1mg/m
+DampRainproof
+Vibration≤1.5m/s
+Fire preventionThere is no flammable material
+at the top and bottom of the
+cabinet
+Insects, pests,
+termites, etcNO
+2
+5.3 Layout requirement
+1）Pile layout requirements
+ The floor charging pile should be installed on the foundation. The foundation must
+be prefabricated before installation. The height of the foundation must be no less
+than 200mm, and the length and width of the foundation must be no less than the size
+of the column base.
+ During installation, 800mm space should be reserved on both sides of the pile and
+200mm space should be reserved on the back.
+7EV charging pile user manual
+2）Cable layout requirements
+The input power line of the charging pile should be laid through the cable trench or row
+pipe;
+3）Fire protection requirement
+The charging pile should comply with the fire protection regulations of power distribution,
+such as hanging dry powder fire extinguishers or automatic explosion fire protection
+requirements;
+4）Power supply requirement
+ The main AC power supply of the charging pile should be the mains power supply, and
+the AC power supply should be three-phase and five-wire system.
+ Ac power line should be copper core wire, power line cross-sectional area should match
+the load. It is recommended to lay the outdoor power line directly buried or row pipe.
+The power line laying route should be separated from the signal line as far as
+possible.
+5）Safety protection requirements
+ Lightning protection and surge protection.
+ The lightning protection and grounding system conforms to the provisions of the current
+national or ministerial standards.
+ The AC side of the charging pile has been installed with corresponding lightning
+protection units, which can reduce the impact of lightning strikes on the equipment
+6）Grounding requirement
+The ground cable should be reliably grounded
+7）Wiring requirements
+ Input power to the charging pile cable
+1) Host input cable, pure copper without shielding, flame retardant, temperature resistance:
+-40℃~125℃, voltage level: 0.6/1KV.
+2) The number of phase lines: three phases and five lines, the length of the connecting cable
+between the charging pile and the power supply is configured according to the project needs
+and site conditions.
+powerCable model (mm)(Recommended)
+20KW3*16+2*6
+30KW3*25+2*10
+40KW3*35+2*16
+Line nose model (recommended)
+Copper nose L1、L2、L3:16-8
+Copper nose N、PE:10-8
+Copper nose L1、L2、L3:25-8
+Copper nose N、PE:10-8
+Copper nose L1、L2、L3:35-8
+Copper nose N、PE:16-8
+8EV charging pile user manual
+5.4 Apparent structural dimension
+ Apparent dimension：480mm*228mm*665mm
+ 20KW-30KW Structure specification
+9EV charging pile user manual
+ 40KW Structure specification
+10EV charging pile user manual
+5.5 Equipment installation
+1） Installation preparation
+Detail
+tool
+Detail
+Electric hand drill Protective tool
+Protective gloves/1PCS
+6 PCS Φ8*80Stainless steel expansion
+Electric drill
+Install and
+Disassembly
+Cross vane
+tool
+tool
+screws (floor post screws)
+4 PCS M8*12Screws
+Fastener
+Ratchet wrench
+(floor hanging plate fixing screws)
+4 PCS Φ8*60Small yellow croaker
+plastic expansion screws
+(wall mounted）
+Sleeve
+2） Pile installation
+ Pile hanging plate installation dimensions and screw specifications:
+11EV charging pile user manual
+3） Wall-mounted
+ Fix the charging pile hanging plate on the wall with 4 Φ8*60 small yellow croaker
+plastic expansion screws (drilling holes: 4 diameter 8mm, depth 70mm);
+ The mounting height of the wall is 1.3-1.5 meters from the ground at the center of
+the support;
+ Need to make ground connection;
+12EV charging pile user manual
+4） Floor mounted
+ 220# Column base installation dimensions
+ Install
+Use 6 Φ8*80 expansion screws to fix the column to the foundation;
+(Drilling: 6 diameter 12mm, depth 80mm)
+ Installation foundation
+
+The foundation shall be placed on old soil with a solid base.
+
+For sites with new soil, all the new soil should be dug out, backfilled with lime soil
+and compacted.
+
+For sites with frozen soil, dig out all the frozen soil, backfill the lime soil, and
+consolidate it. Thermal insulation measures (such as covering the thermal insulation film)
+should be taken during construction to prevent the backfill from freezing again.
+
+The air inlet and outlet of the device cannot be blocked by obstacles.
+The device is reliably grounded to the cement base, and the grounding resistance must be
+less than or equal to 4 ohms.
+13EV charging pile user manual
+Instructions：
+1. The charging pile shall be installed on the concrete foundation, and the pile body shall
+be fixed on the foundation with expansion screws;
+2. Concrete foundation shall be poured on site. The size (length and width) of the ground shall
+not be less than the overall size of the column base, and the height shall not be less than
+200mm. The top surface of the foundation shall be screed to ensure the level of the installation
+surface;
+3. The input power cable is laid in a cable trench or row pipe. The cable is 1500mm away from
+the base and the incoming cable is matched according to the power.
+4. Two pieces of L50*50*1000 hot-dip galvanized Angle steel should be driven into the foundation
+as the grounding pole, and connected to the charging pile through 40*4mm hot-dip galvanized
+flat steel (or with a ground pin of not less than 1500mm);
+5. The base surface should be brushed with yellow and black warning paint;
+14EV charging pile user manual
+5.6 Installation wiring
+1 Installation requirements
+ The AC lead-off cable starts from the power distribution switch and connects to the
+output terminal of the switch before powering on.
+ The power distribution office should be equipped with protective devices such as
+overcurrent, short circuit, and lightning strike.
+ AC power line colors Yellow, green, red, blue, and yellow green correspond to the
+L1, L2, and L3 phase lines, neutral lines, and PE lines respectively.
+ If the power line has only one color, attach the line number label (or sleeve with
+the label).
+ The AC power lines should be routed separately from the DC lines.
+ Do not allow the power line broken, broken, scratched.
+2 Cable connection
+ Input power into the charging pile:
+The cable leads into the charging pile from the bottom of the pile, and after the input
+cable leads into the pile, it is connected to the input end L1, L2, L3, N, and PE end,
+as shown in the following figure:
+1）20KW-30KW Ac input wiring diagram
+15EV charging pile user manual
+2）40KW Ac input wiring diagram
+ Cables are connected first by PE, then by N, and then by L1, L2, and L3 phases;
+ Place all switches, fuses, etc. in the off position before electrical connection;
+5.7 Check after installation
+1) Clear
+ Properly handle all shipping and packing materials in accordance with local
+regulations;
+ Clean up the debris in and around the cabinet, such as small cables, binding tapes,
+screws/cables, etc. Do not leave installati.on tools on site or in the cabinet.
+(Record the type and quantity of tools to avoid missing.)
+ Wipe the insulation with an antistatic cloth. Do not use any corrosive solvent.
+16EV charging pile user manual
+2）Inspect
+ Check that the foundation is fixed and sealed;
+ Check whether the internal components of the device are secure and reliable.
+ Check whether the electrical connection and accessories are correct and complete,
+whether the connection is strong, and whether the grounding is reliable;
+Check appearance, marking, integrity, cleanliness;
+Act 6 Parameter description and configuration
+6.1 Device indicator description
+ The charging pile is equipped with 3 device indicators
+The standby
+indicator is yellow
+The yellow indicator is steady on when the device is powered on
+The runningWhen the device is in the charging state, the indicator blinks. When
+indicator is greenthe charging stops, the indicator is steady green
+The fault indicatorWhen the corresponding interface is faulty, the red indicator is on.
+is redAfter the fault is rectified, the red indicator is off
+6.2 Emergency stop switch instructions
+ The charging pile is equipped with an emergency stop switch：
+ In case of electric leakage, press the emergency stop switch immediately;
+ In case of fire, electric shock and other abnormal conditions, please press
+the emergency stop switch immediately;
+ When the emergency stop switch is pressed under charging state, the
+charging will stop immediately, the output circuit breaker will be
+disconnected, and the fault light will turn on;
+ If the pile body fails, can not stop charging, internal circuit short
+circuit and other abnormal conditions, please press the emergency stop
+switch;
+ non-charging state When the emergency stop switch is pressed, the fault
+light is on, and the fault screen is displayed.
+ When the emergency situation is relieved, please turn the emergency stop
+switch, otherwise the charging cannot continue;
+17EV charging pile user manual
+6.3 Parameter configuration description
+In order to ensure the normal use of the charging pile, parameters need to be
+configured before the first use (only staff). If the device has been configured before
+delivery, you do not need to reconfigure it. If the operating environment changes,
+you need to reconfigure it. For details, see the following:
+Note: ① After the Settings are complete, click the Confirm button to restart the device, and
+the Settings take effect.
+② If the parameter setting is not correct, it will cause the charging pile display failure
+and can not be charged normally.
+Main page after system startup
+initialization；
+Main page→Click on top left“
+”
+Icon→Pop-up numeric keypad
+Enter password（Default password：1234）
+→The management system page is
+displayed
+Page introduction
+Charging
+informationNetwork parameter
+Fault detailSystem parameter
+Charge recordProtection
+parameter
+18EV charging pile user manual
+System parameter：
+No.
+Parameters
+Function details
+PIN setting of RFID reader, 6-digit code, default setting is
+1
+RFID card PIN code
+242007. Must be the same as the PIN of the user card. Users can
+also use other PIN codes if they have a card issuer to change the
+PIN of the user card.
+2Meter address
+3Charge ID
+4Password set
+5Time set
+DC meter mode address
+(fixed at the factory and cannot be modified)
+Charger ID, and recommend to use the serial number
+as the charger ID.
+Password for the admin page. It is a 4-digital fixed
+password, and the default value is " 1234".
+System time setting. The format is Y, M, D, H, M, S. Year
+setting can only set the last 2 digits, for example to
+set the 2 3 in 2023 year.
+6Tariff rate
+7Language set
+8Charge Type
+Payment set, it is for setting the unit price for each single
+kw.h
+Language set. Dual language of Chinese and English
+display is available for now
+Charging Mode
+1： During installation, 800mm space should be reserved on both
+sides of the pile and 200mm space should be reserved on the back
+After modifying the parameters, click the "Settings" button to save, and then click the "back" button to set
+19EV charging pile user manual
+Network parameters:
+If the charging device needs to connect to the background server for operation and management, you
+need to set network parameters. Network parameters include server parameters and charger
+parameters.
+No.
+Parameters
+Function details
+Server address set, for setting the domain or IP address of
+background admin server.
+Backup of server address. It is not available now, save it in case
+for future needs.
+1Server URL12Server URL23Charger IPIP set for charging device.
+4Subnet maskSetting for sub-net mask.
+5GatewaySetting for Gateway.
+6DNSServer address of DNS.
+7MAC AddrMAC address.
+84G APNAPN for 4G.
+9WIFI KeyWiFi password setting. It is a reserved function for future needs.
+10WIFI SSIDWIFIF SSID Setting, it is a name when setting the charging device
+to be connected WiFi network.
+114G user nameUser name for 4G.
+124G user pwdPassword for 4G user.
+13Authentication KeyAuthentication Settings for OCPP log in.
+After modifying the parameters, click the "Settings" button to save, and then click the "back" button to set
+20EV charging pile user manual
+Protection parameters:
+A range of protection parameters such as voltage, current, temperature, power, etc.
+No.Parameters
+Function details
+1DC output overvoltageOver-voltage Limit Setting for DC output
+2DC output overcurrentOver current Limit Setting for DC output
+3AC intput overvoltageOver voltage Limit Setting for AC input
+4AC intput undervoltageLow voltage Limit Setting for AC input
+5AC intput overcurrentOver current Limit Setting for AC input
+6DC out-pull limit powerPower Limit Setting for DC output
+7Charger over temperatureOver temperature setting for Charging connector
+8Charger derate
+temperatureThe temperature of charging connector when charging device
+starts to low the output power down
+9ISO Normal FaultNormal status or Fault of ISO
+10Fan starting temperatureStarting temperature of Fan
+After modifying the parameters, click the "Settings" button to save, and then click the "back" button to set.
+21EV charging pile user manual
+Charging information:
+Charge details page, you can view real-time charge details;
+Fault details:
+On the fault details page, you can view historical faults;
+22EV charging pile user manual
+Charging record:
+Act 7 Operating process
+7.1 Safety check before use
+ Please check the following carefully before using this product:
+1）Ensure that the product is not scratched, rusted, deformed, etc.;
+2）Ensure that there are no foreign objects left in the charging plug and charging socket
+at the end of the car;
+3）If the charging cable or charging gun head is damaged or exposed, do not continue to
+use it.
+4）Keep the plug of the charging gun dry. If there is water, wipe the plug dry with a dry
+and clean cloth when the whole pile is powered off.
+7.2 Operation precautions
+1）If the screen shows that the machine is faulty, please do not charge it, please contact
+the staff;
+2）IC card users, if the need to fill to ensure that the card balance is sufficient,
+insufficient balance during the charging process will automatically terminate the charging;
+3）When charging, please follow the relevant prompts of the charging device;
+4）Pay attention to the strength when pulling and inserting the charging gun, do not exert
+too much force;
+5）Note During card swiping, you can remove the card only when the buzzer beeps; otherwise,
+the operation may fail.
+23EV charging pile user manual
+6) When the charging gun is plugged into the interface and has been powered on, please do
+not unplug the charging gun at this time to prevent electric shock;
+7) In case of emergency, please press the emergency stop switch, at this time can not be
+charged, if charging is in progress, it will immediately stop charging;
+7.3 Charge operation procedure
+Plug and plug charging:
+After the charging gun is inserted into the electric vehicle, it automatically starts charging.
+If you need to stop charging, click the stop symbol on the screen;
+Charging by card:
+Use RFID card to start or stop charging;
+24EV charging pile user manual
+Scanning code charging:
+Use the APP to scan the QR code to start or stop charging, if the management system
+works under this function, you can use the APP to book or use the APP to pay;
+ When the charging pile is working or charging is complete, the user needs to
+stop charging. Different charging methods are as follows:
+1) Swipe card charging: The user can only swipe the card in the corresponding
+charging pile area, swipe the card to finish charging, and follow the steps.
+2) Scanning code charging: Users can only charge at the end of the corresponding
+charging pile APP operation, and follow the steps.
+3) Plug and charge: Users can only charge at the interface of the corresponding
+charging pile and follow the steps.
+25EV charging pile user manual
+Act 8 Packaging transportation storage
+8.1 Package
+The packaging should be firm, the product should not move in the box, so as to avoid damage
+during transportation, and should be moisture-proof, vibration-proof, dust-proof, along with
+the product packaging should be the following items into:
+1) Product user manual3) Φ8*80 Expansion screw
+2) Factory inspection report4) Cabinet key
+8.2 Transport
+1) After packaging, the product can be used for transportation by car, train, ship, plane, etc.,
+and the rain should be covered during transportation.
+2) There should be no violent shock, impact and inversion of the product during transportation,
+so as not to damage the product.
+8.3 Storage requirement
+1) The product should be placed in the original packaging box before use, and the ambient
+temperature of the warehouse where the product is stored is -40℃ to 70℃, and the relative
+humidity is 5 to 95%.
+2) Harmful gases, inflammable, explosive and corrosive chemicals are not allowed in the
+warehouse.
+3) There should be no strong mechanical vibration, shock and strong magnetic field.
+4) It is not allowed to be stored in the open air and must be placed in a dry and well-ventilated
+indoor place.
+26EV charging pile user manual
+Act 9 Fault
+9.1 Common fault
+The system loses its normal function during use, which may be due to errors in installation,
+wiring or use. Please check these three aspects first. If correct, please contact your customer
+service center, please also provide the following information:
+1) The fault phenomenon as detailed as possible when the fault occurs (including touch screen
+display information, etc.)
+2) Describe the fault occurrence process in as much detail as possible;
+3) Describe the use environment of the site in detail as far as possible. Reading this manual
+in detail will be of great help for users to use the system correctly.
+9.2 Fault information description
+(*) Possible cause of failure (fault indicator light on)
+In principle: The fault must be cleared by pulling out the gun, please contact us for other
+faults:
+1) AC input overvoltage/Undervoltage: Check whether the AC input voltage is too high or too
+low. If the fault persists after the input exception is rectified, check whether the threshold
+set on the parameter setting page is correct
+2) Monitoring board communication failure: Check whether the monitoring board communication
+is correct
+3) Card reader failure: Check whether the card reader communication line is correct, or the
+card reader is broken
+4) Charging gun connection failure: the charging gun connection is disconnected, please check
+whether the charging gun is connected
+5) The emergency stop button is pressed: check whether the emergency stop button is pressed.
+If yes, remove the emergency stop button one by one according to the above steps, and the fault
+can be eliminated
+27EV charging pile user manual
+9.3 Fault exclude
+ For the convenience of users, the following is a list of some common problems to deal
+with, for reference:
+Fault
+After power-on the
+display
+Not bright
+Possible cause
+The display power
+cable is looseReconnect the power cable
+The main control board
+has no voltage outputMeasure whether there is voltage output at the
+interface of the main control board display
+Display body damageReplace with a new display
+No power supplyCheck whether the incoming power cable is
+powered on and the power switch is on
+Breaker tripCharging pile has leakage trip function, need to
+close the circuit breaker switch
+Gun not inserted
+correctlyReinsert the charging gun
+The charging process
+was not executed
+correctlyPlease perform the charging operation procedure
+The card does not match
+the charging pilePlease use the correct card to charge. If the
+card is lost, please contact us to replace it
+The emergency stop
+button is pressedTurn the emergency stop switch in the direction
+indicated by the emergency stop button to
+restore the emergency stop switch to normal
+The gun may be dirty or
+damaged in the locked
+areaClean or replace the gun
+The current drops due
+to the high
+temperature of the
+vehicle or charging
+pileVisually inspect the connector for dirt, wear,
+or damage
+External power supply
+exceptionIf the problem cannot be removed, please contact
+us
+The indicator
+light is not on
+Can't start
+Charging process
+The vehicle is not
+fully charged or
+the charging time
+is increased
+Possible cause
+28EV charging pile user manual
+First, visually check the possible causes of the
+fault and handle the fault according to the
+corresponding measures
+Light up fault
+Pilot lamp
+Out of order
+Equipment damageIf damaged, please contact us directly
+Equipment failureFirst, visually check the possible causes of the
+fault and handle the fault according to the
+corresponding measures
+Charging current
+Less than rated
+High temperature
+alarm
+The lightning
+protection alarm
+is faulty
+The system
+indicates that the
+charging module is
+faulty
+The system fails
+to be powered on
+after an emergency
+shutdown
+Cut off the power supply of the charging pile,
+pull out the charging gun in the vehicle socket,
+switch on the power again, and restart the
+charging
+If this is not the case please contact us
+Vehicle near fullWhen the vehicle battery is nearly full, the
+charging current will decrease, which is normal
+Cabinet fan faultThe fan is damaged. Replace the fan
+The air intake is notIf the air inlet is not smooth, clean or replace
+the dust-proof cotton
+The surge arrester is
+damagedCheck the label on the surge arrester: If it is
+not on, it is damaged and needs to be replaced
+The surge arrester
+module is looseCheck whether the surge arrester module springs
+up. If yes, reinsert and secure it
+The charging module is
+improperly inserted or
+faulty
+Reinsert the module
+Adjust the position of the module to determine
+whether the module is damaged
+The emergency stop
+button is not resetRotate the scram button to reset
+The circuit breaker
+trip is not resetUse the breaker handle to close the breaker again
+System failure is
+not reported but
+transmission
+voltage is not
+generatedThe output relay is not
+drawn
+There is voltage
+and no current
+outputThe fuse is burnt out
+Check whether the cables to the high voltage
+relay are loose or disconnected
+Measure whether the relay coil is powered. If so,
+it is damaged
+Stop, use a multimeter to measure the fuse
+resistance, infinity to prove damage
+29EV charging pile user manual
+Act 10 Routine maintenance
+10.1 Line
+（The following routine maintenance items are for reference only. For details, see related
+standards and operation guides）
+Weekly checkCheck whether the cable is heated or damaged
+Monthly routine
+inspectionCheck whether the cable is heated or damaged, whether the cable is stressed
+by the external tension, and whether it is firmly fixed
+Annual routine
+inspectionCheck whether the cable is tightly connected to the switch, whether the
+grounding is reliable, whether the cable is heated or damaged, and whether the
+cable is insulated
+Whether the resistance meets the requirements, whether the sealing of the cable into the column
+or other boxes is intact, and whether the holes are tightly sealed;
+10.2 Auxiliary parts
+Monthly routine inspection
+Display panel
+Check whether the nixie tube and indicator on the display panel are displayed
+abnormally
+Whether the key is sensitive
+Whether the display panel is securely fixed
+Monthly routine check: Check whether the fan is damaged and whether the fan
+is firmly fixed
+Quarterly routine inspection:
+Fan
+1) Check whether the fan is damaged and whether the fan is fixed firmly;
+2) Clean and maintain the fan system;
+3) The fan is a loss part, running to a certain time, must be cleaned;
+4) If damaged, timely repair
+Scram button
+Weekly routine check: Whether the emergency stop button works properly
+Monthly routine inspection
+Screen
+Use brushes and vacuum cleaners to clean the inlet and outlet and air duct
+filter screen. Pay attention not to blow dirt into the radiator air duct when
+cleaning, resulting in blockage of the air duct
+10.3 Equipment dust removal
+Monthly routine
+maintenance1) Dust the air inlet and air outlet of the equipment
+2) Clean the filter screen of the air inlet and air outlet
+Dust the inlet
+and outletYou can use blowers, brush and other tools to clean the air inlet filter regularly
+30EV charging pile user manual
+10.4 Maintenance cycle
+Check itemweeklymonthquarteryearscableoverhaul
+Charging gunoverhaul
+scramtest
+screenCleaning/replacement
+fanclean
+Display
+screenoverhaul
+Switchoverhaul
+Integral
+dust removal
+of equipmentDust removal
+maintenance
+31
+Treatment methodEV charging pile user manual
+Act 11 After sale
+11.1 Warranty clause
+1） Basic information
+1 thank you for choosing our charging pile products.
+2 If the purchase or use of products beyond the standard warranty requirements, welcome
+to call to understand the warranty service.
+2） Product warranty policy
+1 the product warranty period is 24 months, 7x24 hours service line (400-160-2660) at any
+time to respond, customer warranty within 48 hours to make an appointment for on-site
+maintenance service.
+2 During the warranty period, according to the use of the instructions for normal use of
+the condition of failure (judged by the company's formal staff), free maintenance.
+3 the user within 7 days of purchase, performance failure, you can choose to replace or
+warranty free maintenance; When the user applies for replacement, it is necessary to provide
+the purchase invoice, warranty card, original product packing box and other random
+accessories.
+4 the user in the warranty period to apply for free warranty service, need to produce a
+valid purchase invoice, warranty card, the start date of the warranty period is the purchase
+date indicated in the invoice, if you can not produce a valid purchase invoice, warranty
+card, or the above warranty certificate recorded in the information and the product does
+not meet, or has been altered, can not be identified, The warranty period of the product
+is based on the recorded factory date of the product. If you cannot get a valid product
+delivery date, you will not be able to provide free warranty service.
+5 The machine repaired by the company shall continue to enjoy the warranty service provided
+by the company during the original warranty period.
+6 The faulty parts or faulty machines replaced after maintenance belong to the company.
+7 the user needs to properly keep the warranty card, the company does not reissue the warranty
+card.
+32EV charging pile user manual
+3） After-sales warranty service terms
+1 In the event that the after-sales warranty area is exceeded, or the warranty exemption
+scope is met, Party B may provide free remote consultation services (including but not
+limited to telephone, letter or other network communication methods), and charge relevant
+fees according to the corresponding charging standards if on-site maintenance is required.
+2. During the warranty period, Party B shall provide free repair or replacement service
+for any failure caused by non-human reasons due to the quality of the charging pile itself
+(including exemption of on-site fee, working hour fee and possible material fee, etc.).
+3. The products repaired by Party B during the warranty period shall continue to enjoy the
+warranty services provided by Party B during the original warranty period.
+4, Outside the warranty period or warranty period in line with the scope of disclaimer of
+charges maintenance, maintenance and replacement of components warranty period to the
+original machine warranty period or two years from the date of maintenance and replacement
+of the two later prevail.
+5. Charging pile maintenance please refer to the product user manual.
+4） Warranty service exemption clause
+1. The equipment exceeds the warranty period and the warranty period is not extended.
+2. Appearance is damaged, two-dimensional code, can not produce a valid purchase invoice,
+warranty card, can not identify the charging pile warranty period.
+3. Artificial damage or failure or damage caused by improper storage and use (such as
+flooding, collision).
+4. Failure or damage caused by use in a working environment or load other than that specified
+by the product (such as inserting and removing the charging gun more than 10,000 times).
+5. Disassembly or maintenance by the user or unauthorized organization.
+6. Equipment failure caused by non-material and production quality (such as construction
+grounding problems, power supply abnormalities, carrier signal problems, etc.).
+Seven. If the charging pile is not maintained according to the maintenance requirements and
+cycle, the operation components related to the maintenance action are aging and failing in
+advance, and the warranty liability is exempted.
+33EV charging pile user manual
+11.2 Warranty card
+Warranty card
+Product name：Wall-mounted DC charging pile-CE
+Output power：20KW 30KW 40KW
+Manufacturer：
+Date of manufacture
+(Year Month Day (according to acceptance))：
+The warranty period of this product is two years, please keep the warranty copy
+properly, and use this page as the product warranty certificate. During the warranty
+period, press. Repair according to the "Warranty Regulations"
+Customer name：
+Contact number：
+Customer address:
+Customer name：
+Contact number：
+Customer address:
+Customer name：
+Contact number：
+Customer address:
+Customer name：
+Contact number：
+Customer address:
+Customer name：
+Contact number：
+Customer address:
+34EV charging pile user manual
+THANK YOU!
+35

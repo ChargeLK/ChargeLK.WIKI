@@ -29,6 +29,13 @@ This section contains comprehensive documentation for deploying, operating, and 
    - Troubleshooting commands
    - Monitoring and logs
 
+4. **[Exposing Swagger on the VPS](./EXPOSING-SWAGGER-ON-VPS.md)**
+   - Enabling Swagger UI for OCPP and UM on the production-test VPS
+   - `UseForwardedHeaders` setup behind Nginx
+   - Subdomains vs path-prefix reverse proxy options
+   - Locking `/swagger` down with HTTP basic auth or IP allow-lists
+   - End-to-end checklist for handing API docs to frontend devs
+
 ## System Architecture
 
 ### Production Architecture

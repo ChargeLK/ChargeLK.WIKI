@@ -2,142 +2,76 @@
 
 ## Introduction
 
-ChargeLK is a comprehensive EV (Electric Vehicle) charging management solution designed to manage charging infrastructure, user accounts, transactions, and real-time communication with charging stations using the OCPP (Open Charge Point Protocol) standard.
+ChargeLK is an EV (Electric Vehicle) charging management solution designed to manage charging infrastructure, user accounts, wallets, pricing, and real-time communication with charging stations using the **OCPP 1.6 JSON** standard over WebSocket.
+
+The platform is implemented as two independent .NET 9 microservices plus a React admin portal:
+
+- **ChargeLK.OCPPServer** — OCPP 1.6 server (WebSocket) for charge points, plus REST APIs for charger, tariff, tag, review, and transaction management.
+- **ChargeLK.UM** — User Management service: identity, RBAC/permissions, wallet, documents, mobile app APIs (including Google Sign-In), and system settings.
+- **ChargeLK.AdminUI** — React 18 + TypeScript + Vite + Material UI portal backed by RTK Query.
 
 ## Business Context
 
-The ChargeLK platform enables:
-- **Charging Station Operators (CSOs)**: Manage and monitor their charging infrastructure
-- **EV Drivers**: Locate chargers, initiate charging sessions, and manage their accounts
-- **System Administrators**: Oversee the entire ecosystem, manage users, and monitor system health
-- **Business Stakeholders**: Track revenue, usage analytics, and operational metrics
+The ChargeLK platform supports:
 
-## System Vision
-
-ChargeLK aims to provide a scalable, reliable, and standards-compliant EV charging platform that supports:
-- Multi-tenant architecture for different operators
-- Real-time monitoring and control of charging stations
-- Seamless payment and billing integration
-- Mobile-first user experience
-- Cloud-native infrastructure with high availability
+- **Charge Point Operators (CSOs)** — onboard chargers, set tariffs, monitor operations, schedule maintenance, moderate reviews.
+- **EV Drivers (Mobile App)** — sign up / log in (password or Google), receive a virtual OCPP tag, top up a wallet in LKR, authorise at the charge point, track sessions and history, leave reviews.
+- **System Administrators (Admin Portal)** — manage users, roles, permissions, OCPP tags, charge points, transactions, and global system settings.
 
 ## Key Features
 
-### For Charging Station Operators
-- **Real-time Monitoring**: Live status of all charging points
-- **Remote Management**: Control charging sessions, update configurations
-- **OCPP 1.6 Compliance**: Standard protocol for interoperability
-- **Transaction History**: Complete audit trail of all charging sessions
-- **Analytics Dashboard**: Usage patterns, revenue reports, performance metrics
+### OCPP Server (ChargeLK.OCPPServer)
+- WebSocket endpoint `/ocpp/{chargeBoxId}` upgrading to the `ocpp1.6` subprotocol.
+- OCPP 1.6 actions handled today: `BootNotification`, `Heartbeat`, `StatusNotification`, `Authorize`, `StartTransaction`, `StopTransaction`, `MeterValues`, `DataTransfer`.
+- Server-initiated operations: `RemoteStartTransaction`, `RemoteStopTransaction`, `UnlockConnector`, `Reset`, `ClearCache`.
+- **Tariffs** — default and per-charge-point / per-connector pricing with peak windows, session fees, minimum/maximum caps.
+- **OCPP Tags** — physical and virtual tags, status lifecycle (Active / Suspended / Blocked / Deactivated), assignment to users, full audit log, bulk import.
+- **Charger Maintenance** — scheduled/logged maintenance records per charge point.
+- **Charger Reviews** — rating + message reviews keyed to a charge point.
+- **Mobile bridge endpoints** (under `/api/ocpp/*`) for the UM service: create virtual tag, user summary, active session, user transactions.
 
-### For EV Drivers
-- **Mobile Application**: Find nearby chargers, start/stop charging sessions
-- **Account Management**: Top-up wallet, view charging history
-- **RFID Card Support**: Contactless authentication at charging stations
-- **Real-time Updates**: Session progress, cost calculation, notifications
-- **Payment Integration**: Multiple payment methods support
+### User Management (ChargeLK.UM)
+- ASP.NET Core Identity on a `long` key with a custom `ApplicationUser` (FirstName / LastName / UserId GUID / Docket).
+- JWT bearer + refresh token flow; cross-service validation via a shared JWT scheme.
+- **Permission-based authorisation** (`resource:action`) with a custom `PermissionPolicyProvider` — policies are materialised on demand.
+- **Roles**: `SystemAdmin`, `Admin`, `Operator`, `Support`, `User` (seeded, plus permissions seed).
+- **Mobile auth**: email/password login, signup, forgot/reset password, Google ID-token sign-in.
+- **Wallet**: per-user `UserWallet` in LKR, `WalletTransaction` ledger, top-up stub (payment gateway TODO), admin balance adjustments, balance checks.
+- **Documents + Dockets**: every user gets a `Docket` (document bundle); documents live in Azure Blob Storage with generated thumbnails (SixLabors.ImageSharp) and a `DocumentCategory` taxonomy.
+- **System Settings**: grouped settings (General / Notifications / Security / Appearance) editable via `/api/um/settings`.
+- **Domain events**: `UserCreatedDomainEvent` triggers virtual OCPP tag generation (via the OCPP service) and `CreateBlobContainerEvent` for document storage bootstrap.
+- **Messaging**: `AzureServiceBusPublisher` / `AzureServiceBusSubscriber` are wired up in Infrastructure for event integration.
 
-### For System Administrators
-- **Multi-service Management**: Control both OCPP and user management services
-- **User & Role Management**: Fine-grained access control
-- **Configuration Management**: System-wide settings and parameters
-- **Health Monitoring**: Service health checks, performance metrics
-- **Audit Logs**: Complete system activity tracking
-
-## System Capabilities
-
-### OCPP Protocol Support (ChargeLK.OCPP)
-- WebSocket-based communication with charge points
-- OCPP 1.6 JSON specification compliance
-- Support for core OCPP operations:
-  - BootNotification
-  - Heartbeat
-  - Authorize
-  - StartTransaction / StopTransaction
-  - MeterValues
-  - StatusNotification
-  - RemoteStartTransaction / RemoteStopTransaction
-  - ChangeConfiguration
-  - DataTransfer
-
-### User & Transaction Management (ChargeLK.UM)
-- ASP.NET Identity-based authentication
-- JWT token-based authorization
-- User registration and profile management
-- Role-based access control (RBAC)
-- Transaction processing and billing
-- Payment gateway integration ready
-- Notification services
-
-### Administrative Portal (ChargeLK.AdminUI)
-- Modern React-based web interface
-- Real-time data updates with React Query
-- Responsive Material-UI design
-- Dashboard with key metrics
-- Charge point management interface
-- Transaction monitoring
-- User administration
+### Admin Portal (ChargeLK.AdminUI)
+- React 18, TypeScript, Vite, Material UI v6 (including `x-data-grid`, `x-date-pickers`), Recharts, framer-motion, notistack.
+- **Redux Toolkit + RTK Query** with redux-persist; central `baseApi` with automatic JWT refresh, mutex-guarded against concurrent 401s, and unwrapping of the backend `Result<T>` envelope.
+- Pages: `Dashboard`, `ChargePoints`, `ChargePointDetail`, `OcppTags`, `Transactions`, `Users`, `Settings`, `Login`.
+- Feature dialogs: assign tag ↔ user, bulk tag import, tag assignment history, user roles, user permissions.
+- QR code generation for charge points (`qrcode.react`, `html2canvas`, `jspdf`).
 
 ## Stakeholders
 
-### Primary Users
-1. **System Administrators**: Full system access, manage operators and configurations
-2. **CSO Administrators**: Manage their organization's charging infrastructure
-3. **CSO Operators**: Monitor and control charging stations
-4. **EV Drivers**: End users who charge their vehicles
+- **EV Drivers** — mobile app clients consuming `/api/um/auth/mobile/*` and `/api/um/mobile/*`.
+- **CSO Administrators / Operators** — admin portal users, authenticated via `/api/auth/login`.
+- **System Administrators** — `SystemAdmin` / `Admin` roles; full access to users, roles, permissions, settings.
+- **Charge Points** — OCPP 1.6 JSON clients connecting over WebSocket.
 
-### System Integrators
-1. **Charge Point Manufacturers**: Integrate their hardware with OCPP protocol
-2. **Payment Gateway Providers**: Process financial transactions
-3. **Third-party Services**: Map services, notification providers, analytics platforms
+## Non-Functional Notes
 
-### Business Stakeholders
-1. **Product Owners**: Define features and priorities
-2. **DevOps Team**: Deploy and maintain infrastructure
-3. **Support Team**: Handle user issues and system monitoring
-4. **Compliance Officers**: Ensure regulatory compliance
-
-## System Constraints
-
-### Technical Constraints
-- Must comply with OCPP 1.6 JSON specification
-- Real-time WebSocket connections must support up to 10,000 concurrent charge points
-- API response time must be < 200ms for 95th percentile
-- System must support multi-tenancy with data isolation
-
-### Business Constraints
-- Must support local currency and payment methods
-- Data retention policies must comply with GDPR and local regulations
-- System must be available 99.9% of the time
-- Must support horizontal scaling for growing infrastructure
-
-### Security Constraints
-- All communications must be encrypted (TLS 1.2+)
-- Authentication tokens must expire and support refresh
-- PCI DSS compliance for payment processing
-- Role-based access control for all operations
-
-## Success Metrics
-
-1. **Operational Metrics**
-   - System uptime: 99.9%
-   - Average API response time: < 150ms
-   - Concurrent charge point connections: 10,000+
-   
-2. **Business Metrics**
-   - Number of active charging stations
-   - Total charging sessions per month
-   - Revenue per charging session
-   - User growth rate
-
-3. **User Experience Metrics**
-   - Mobile app session start time: < 30 seconds
-   - Admin portal load time: < 2 seconds
-   - Transaction success rate: > 99.5%
+- **Databases**: PostgreSQL per service (EF Core 9 for UM, EF Core 8 for OCPP). No MongoDB in the current build.
+- **File storage**: Azure Blob Storage (`Azure.Storage.Blobs`) for user documents.
+- **Deployment**:
+  - OCPP Server: built and shipped via `.github/workflows/deploy.yml`, run under `chargelk-ocpp-imesh.service` systemd unit. Migrations applied at deploy time using an `ef migrations bundle`.
+  - UM: containerised (Dockerfile at the solution root).
+  - Admin UI: containerised (Dockerfile + nginx).
+- **Secrets**: `DATABASE_CONNECTION_STRING`, `MediatR__LicenseKey`, `Jwt__SecretKey` injected at deploy time; placeholders in `appsettings.json`.
 
 ## Related Documentation
 
 - [System Architecture](../02-Architecture/README.md)
 - [Components Documentation](../03-Components/README.md)
+- [API Reference](../04-API-Reference/README.md)
+- [Data Architecture](../05-Data-Architecture/README.md)
 - [Development Guide](../07-Development/README.md)
-
+- [Security](../08-Security/README.md)
+- [Operations & Deployment](../09-Operations/README.md)

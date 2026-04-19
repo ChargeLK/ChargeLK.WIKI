@@ -1,374 +1,244 @@
 # System Architecture
 
-## Architecture Overview
+## Overview
 
-ChargeLK follows a microservices architecture pattern with clear separation of concerns, enabling independent scaling, deployment, and development of different system components.
+ChargeLK is composed of two independent .NET 9 microservices (OCPP Server, User Management) and a React admin portal. Each backend service follows a four-layer Clean Architecture:
 
-## Architecture Principles
+```
+API  →  Application  →  Domain
+ │                        ▲
+ └──►  Infrastructure  ───┘
+```
 
-### 1. **Microservices Architecture**
-Each service is independently deployable, scalable, and maintainable:
-- **ChargeLK.OCPP**: Handles OCPP protocol and charge point management
-- **ChargeLK.UM**: Handles user management and business transactions
+The two solutions are **physically separate** (`ChargeLK.OCPPServer/` and `ChargeLK.UM/`) and do not share compiled projects. Integration is done over HTTP (UM calls OCPP mobile endpoints under `/api/ocpp/*`, OCPP calls UM to validate users/tags) and, in UM, via Azure Service Bus.
 
-### 2. **Clean Architecture**
-Both backend services follow Clean Architecture principles:
-- **Domain Layer**: Business entities and rules
-- **Application Layer**: Use cases and business logic
-- **Infrastructure Layer**: External concerns (database, messaging, APIs)
-- **Presentation Layer**: API controllers and endpoints
+## Architectural Principles
 
-### 3. **Event-Driven Communication**
-Services communicate asynchronously using Azure Service Bus:
-- Loose coupling between services
-- Eventual consistency
-- Scalable message processing
+1. **Clean Architecture per service** — dependencies point inward (API → Application → Domain; Infrastructure → Application/Domain).
+2. **CQRS with MediatR** — commands and queries are handled by dedicated handlers (e.g. `OcppServer.Application/Handlers/ChargePoint/{Commands,Queries}`).
+3. **Permission-based authorisation (UM)** — `resource:action` strings resolved dynamically through a custom `PermissionPolicyProvider`; OCPP server uses named policies like `CanManageChargePoints`.
+4. **Domain events** — entities raise events (e.g. `UserCreatedDomainEvent`) that are handled by Application-layer `INotificationHandler`s, and can be forwarded to Azure Service Bus.
+5. **Repository + Unit of Work** — all data access goes through repositories (`ChargeLK.Infrastructure/Repositories/*`, `OcppServer.Infrastructure/Repositories/*`) with `IUnitOfWork` for transactional boundaries.
+6. **Thin controllers** — controllers just dispatch through `Mediator.Send(...)` and translate `Result<T>` / `Result<T, Error>` into HTTP responses (`BaseApiController`).
 
-### 4. **API Gateway Pattern** (Ready for Implementation)
-Single entry point for clients:
-- Request routing
-- Authentication/Authorization
-- Rate limiting
-- API composition
+## Layer Map
 
-### 5. **Database per Service**
-Each microservice has its own database:
-- Data isolation and autonomy
-- Independent scaling
-- Technology diversity (PostgreSQL + MongoDB)
+### OCPP Server (`ChargeLK.OCPPServer/`)
+- `OcppServer.Domain/` — `ChargePointEntity`, `Connector`, `TransactionEntity`, `TransactionMeterValue`, `OcppTag`, `OcppTagAuditLog`, `OcppOperation`, `Reservation`, `Tariff`, `ChargerMaintenanceEntity`, `ChargerReview`, `ChargingProfile`, `ChargingSchedulePeriod`, plus `Enums/` and `Shared/`.
+- `OcppServer.Application/` — `Handlers/{ChargePoint,Transaction,OcppTag,Tariff,ChargerMaintenance,Mobile}` (Commands + Queries), `DTOs/*`, `Interfaces/{Data,Ocpp,Repositories,Services,User}`, `Results/`.
+- `OcppServer.Infrastructure/` — `Persistence/` (EF Core PostgreSQL `DbContext`), `EntityConfigurations/`, `Migrations/`, `Repositories/`, `Interceptors/`, `Services/{Billing,Ocpp,Tag,Time,User}`, `Configs/`.
+- `OcppServer.API/` — `Controllers/RestApi/{ChargePoints,ChargerMaintenance,Mobile,OcppTags,Reviews,Tariffs,Transactions}`, `Middlewares/{OcppWebSocketMiddleware, RequestContextLoggingMiddleware}`, `Extentions/` (sic: `ServiceCollectionExtensions`, `MigrationExtentions`, `FileUploadOperationFilter`).
 
-## C4 Model Architecture Diagrams
+### User Management (`ChargeLK.UM/`)
+- `ChargeLK.Domain/` — `Entities/{User,Wallet,Documents,Dockets,ChargingSession,Settings}`, `DomainEvents/Users/Events` (`UserCreatedDomainEvent`, `CreateBlobContainerEvent`), `Constants/{Roles, Permissions, CustomClaimTypes, AuthenticationSchemes}`, `Configs/{TokenConfig, GoogleAuthConfig}`, `Shared/{EntitySupport, Enums, BusinessExceptions, Repository}`.
+- `ChargeLK.Application/` — `Handlers/{Auth,User,Role,Permission,Mobile,Document,Settings,DomainEvents}`, `Behaviors/{ValidationPipelineBehavior, RequestLoggingPipelineBehavior}`, `Interfaces/*`, `Models/*`, `Services/`.
+- `ChargeLK.Infrastructure/` — `Database/` (EF Core PostgreSQL + Identity), `EntityConfigurations/*`, `Migrations/`, `Repositories/*`, `Services/{Authentication,Document,Messaging,Permission,Time,Token,User,Wallet}`, `Authorization/{PermissionPolicyProvider, PermissionAuthorizationHandler, PermissionRequirement}`, `Interceptors/AuditableEntitySaveChangesInterceptor`.
+- `ChargeLK.API/` — `Controllers/RestApi/{Admin,ApplicationUser,Document,Mobile,Settings,Wallet}`, `Extensions/*`, `Middleware/RequestContextLoggingMiddleware`, `Constants/{PolicyNames, AuthorizationPolicies}`.
 
-### Level 1: System Context Diagram
+### Admin UI (`ChargeLK.AdminUI/`)
+- `src/pages/` — page-level components (`Dashboard`, `ChargePoints`, `ChargePointDetail`, `OcppTags`, `Transactions`, `Users`, `Settings`, `Login`).
+- `src/components/` — shared/layout + feature folders (`Layout`, `OcppTags`, `Users`, `QrCode`).
+- `src/store/` — Redux store; `api/{baseApi, authApi, chargePointsApi, ocppTagsApi, rolesApi, settingsApi, transactionsApi, usersApi}`; `slices/authSlice.ts`.
+
+## C4 — Context
 
 ```mermaid
 C4Context
-    title System Context Diagram - ChargeLK EV Charging Solution
+    title ChargeLK — System Context
 
-    Person(evDriver, "EV Driver", "End user who charges their vehicle")
-    Person(csoAdmin, "CSO Administrator", "Manages charging infrastructure")
-    Person(sysAdmin, "System Administrator", "Manages entire platform")
-    
-    System(chargeLK, "ChargeLK Platform", "EV Charging Management System")
-    
-    System_Ext(chargePoint, "Charge Point", "Physical EV charging station with OCPP 1.6")
-    System_Ext(paymentGateway, "Payment Gateway", "Processes payments")
-    System_Ext(notificationService, "Notification Service", "Sends emails/SMS")
-    
-    Rel(evDriver, chargeLK, "Uses", "HTTPS/Mobile App")
-    Rel(csoAdmin, chargeLK, "Manages", "HTTPS/Web Portal")
-    Rel(sysAdmin, chargeLK, "Administers", "HTTPS/Web Portal")
-    
-    Rel(chargePoint, chargeLK, "Communicates", "WebSocket/OCPP 1.6")
-    Rel(chargeLK, paymentGateway, "Processes payments", "HTTPS")
-    Rel(chargeLK, notificationService, "Sends notifications", "HTTPS")
+    Person(driver,   "EV Driver",     "Uses mobile app")
+    Person(operator, "CSO / Operator", "Manages charge points, tags, tariffs")
+    Person(admin,    "System Admin",   "Manages users, roles, settings")
+
+    System(chargeLK, "ChargeLK Platform", "OCPP server + UM + Admin UI")
+
+    System_Ext(cp,      "Charge Point",     "OCPP 1.6 JSON over WebSocket")
+    System_Ext(google,  "Google Identity",  "ID-token verification for mobile SSO")
+    System_Ext(blob,    "Azure Blob Storage","User documents")
+    System_Ext(sb,      "Azure Service Bus","Integration events (UM)")
+
+    Rel(driver,   chargeLK, "Mobile APIs",   "HTTPS")
+    Rel(operator, chargeLK, "Admin portal",  "HTTPS")
+    Rel(admin,    chargeLK, "Admin portal",  "HTTPS")
+    Rel(cp,       chargeLK, "OCPP messages", "WSS / ocpp1.6")
+    Rel(chargeLK, google,   "Verify ID token","HTTPS")
+    Rel(chargeLK, blob,     "Store documents","HTTPS")
+    Rel(chargeLK, sb,       "Publish/subscribe events","AMQP")
 ```
 
-### Level 2: Container Diagram
+## C4 — Containers
 
 ```mermaid
 C4Container
-    title Container Diagram - ChargeLK Platform
+    title ChargeLK — Container View
 
-    Person(user, "User", "EV Driver, Admin, or Operator")
-    System_Ext(chargePoint, "Charge Point", "OCPP 1.6 Device")
+    Person(user, "User", "Driver / Operator / Admin")
+    System_Ext(cp, "Charge Point", "OCPP 1.6")
 
-    Container_Boundary(chargeLK, "ChargeLK Platform") {
-        Container(mobileApp, "Mobile App", "React Native", "Charging sessions, account management")
-        Container(adminUI, "Admin Portal", "React + TypeScript", "System administration and monitoring")
-        
-        Container(apiGateway, "API Gateway", "Future", "Request routing, auth, rate limiting")
-        
-        Container(ocppService, "OCPP Service", ".NET 9 Web API", "OCPP protocol, charge point management")
-        Container(umService, "UM Service", ".NET 9 Web API", "User management, transactions, billing")
-        
-        ContainerDb(ocppDb, "OCPP Database", "PostgreSQL", "Charge points, OCPP tags, connector status")
-        ContainerDb(ocppMongo, "OCPP Time-Series DB", "MongoDB", "Meter values, transaction logs")
-        
-        ContainerDb(umDb, "UM Database", "PostgreSQL", "Users, roles, transactions")
-        ContainerDb(umMongo, "UM Document DB", "MongoDB", "Documents, audit logs")
-        
-        Container(serviceBus, "Message Bus", "Azure Service Bus", "Async event communication")
-        Container(blobStorage, "Blob Storage", "Azure Blob Storage", "Document storage")
+    Container_Boundary(platform, "ChargeLK Platform") {
+        Container(adminUI, "Admin UI",    "React 18 + Vite + MUI + RTK Query", "Portal for operators and admins")
+        Container(mobile,  "Mobile App",  "(external / planned)",              "Driver app")
+
+        Container(ocpp, "OCPP Server", ".NET 9 ASP.NET Core",
+            "OCPP 1.6 WebSocket + REST for charge points, tariffs, tags, reviews, maintenance, transactions")
+        Container(um,   "UM Service",  ".NET 9 ASP.NET Core",
+            "Identity, RBAC/permissions, wallet, documents/dockets, mobile auth, settings")
+
+        ContainerDb(pgOcpp, "OCPP PostgreSQL", "PostgreSQL",
+            "Charge points, connectors, tags, transactions, meter values, tariffs, reviews, maintenance")
+        ContainerDb(pgUm,   "UM PostgreSQL",   "PostgreSQL",
+            "Identity users/roles/claims, permissions, dockets, documents, wallets, sessions, settings")
+
+        Container(blob, "Blob Storage",   "Azure.Storage.Blobs", "User documents + thumbnails")
+        Container(sb,   "Service Bus",    "Azure.Messaging.ServiceBus", "Integration events (UM)")
     }
 
-    Rel(user, mobileApp, "Uses", "HTTPS")
-    Rel(user, adminUI, "Uses", "HTTPS")
-    
-    Rel(mobileApp, umService, "API calls", "HTTPS/REST")
-    Rel(adminUI, ocppService, "API calls", "HTTPS/REST")
-    Rel(adminUI, umService, "API calls", "HTTPS/REST")
-    
-    Rel(chargePoint, ocppService, "OCPP messages", "WebSocket/JSON")
-    
-    Rel(ocppService, ocppDb, "Reads/Writes", "Entity Framework")
-    Rel(ocppService, ocppMongo, "Writes time-series", "MongoDB Driver")
-    Rel(ocppService, serviceBus, "Publishes events", "Azure SDK")
-    Rel(ocppService, blobStorage, "Stores files", "Azure SDK")
-    
-    Rel(umService, umDb, "Reads/Writes", "Entity Framework")
-    Rel(umService, umMongo, "Stores documents", "MongoDB Driver")
-    Rel(umService, serviceBus, "Publishes/Subscribes", "Azure SDK")
-    Rel(umService, blobStorage, "Stores files", "Azure SDK")
+    Rel(user,    adminUI, "HTTPS")
+    Rel(adminUI, ocpp,    "REST /api/*",  "HTTPS")
+    Rel(adminUI, um,      "REST /api/*",  "HTTPS")
+    Rel(mobile,  um,      "REST /api/um/auth/mobile/*, /api/um/mobile/*", "HTTPS")
+
+    Rel(cp, ocpp, "WSS /ocpp/{chargeBoxId}", "ocpp1.6")
+
+    Rel(um,   ocpp, "POST /api/ocpp/tags/virtual, GET /api/ocpp/mobile/user/{id}/...", "HTTPS")
+    Rel(ocpp, um,   "Resolve user / validate tag (ICurrentUserService, HTTP clients)", "HTTPS")
+
+    Rel(ocpp, pgOcpp, "EF Core 8")
+    Rel(um,   pgUm,   "EF Core 9 + Identity")
+    Rel(um,   blob,   "Documents")
+    Rel(um,   sb,     "Publish/Subscribe")
 ```
 
-### Level 3: Component Diagram - OCPP Service
+## OCPP WebSocket Flow
 
 ```mermaid
-graph TB
-    subgraph "ChargeLK.OCPP Service"
-        subgraph "API Layer"
-            RestAPI[REST API Controllers]
-            WsEndpoint[WebSocket Endpoint]
-            Middleware[Middleware Pipeline]
-        end
-        
-        subgraph "Application Layer"
-            ChargePointHandlers[Charge Point Handlers]
-            TransactionHandlers[Transaction Handlers]
-            OcppTagHandlers[OCPP Tag Handlers]
-            EventPublishers[Event Publishers]
-        end
-        
-        subgraph "Domain Layer"
-            ChargePointEntity[Charge Point Entity]
-            TransactionEntity[Transaction Entity]
-            ConnectorEntity[Connector Entity]
-            OcppTagEntity[OCPP Tag Entity]
-        end
-        
-        subgraph "Infrastructure Layer"
-            OcppMessageHandler[OCPP Message Handler]
-            PostgresRepo[PostgreSQL Repositories]
-            MongoRepo[MongoDB Repositories]
-            ServiceBusClient[Service Bus Client]
-            BlobClient[Blob Storage Client]
-            UserServiceClient[User Service Client]
-        end
+sequenceDiagram
+    autonumber
+    participant CP as Charge Point
+    participant MW as OcppWebSocketMiddleware
+    participant H  as IOcppMessageHandler
+    participant DB as OCPP PostgreSQL
+
+    CP->>MW: HTTP Upgrade /ocpp/{chargeBoxId}
+    MW-->>CP: 101 Switching Protocols (ocpp1.6)
+    MW->>MW: OcppServerService.RegisterConnection(chargeBoxId, socket)
+
+    loop While open
+        CP->>MW: [2, msgId, Action, Payload]
+        MW->>H: dispatch on Action
+        H->>DB: EF Core read/write
+        H-->>MW: responsePayload
+        MW-->>CP: [3, msgId, responsePayload]
     end
-    
-    WsEndpoint --> OcppMessageHandler
-    RestAPI --> ChargePointHandlers
-    RestAPI --> TransactionHandlers
-    RestAPI --> OcppTagHandlers
-    
-    OcppMessageHandler --> ChargePointHandlers
-    OcppMessageHandler --> TransactionHandlers
-    
-    ChargePointHandlers --> ChargePointEntity
-    TransactionHandlers --> TransactionEntity
-    OcppTagHandlers --> OcppTagEntity
-    
-    ChargePointHandlers --> PostgresRepo
-    TransactionHandlers --> PostgresRepo
-    TransactionHandlers --> MongoRepo
-    
-    EventPublishers --> ServiceBusClient
-    ChargePointHandlers --> EventPublishers
-    TransactionHandlers --> EventPublishers
+
+    Note over MW,H: Supported actions: BootNotification, Heartbeat,<br/>StatusNotification, Authorize, StartTransaction,<br/>StopTransaction, MeterValues, DataTransfer
 ```
 
-### Level 3: Component Diagram - UM Service
+## Mobile Charging Session Flow
 
 ```mermaid
-graph TB
-    subgraph "ChargeLK.UM Service"
-        subgraph "API Layer"
-            AuthAPI[Authentication API]
-            UserAPI[User Management API]
-            TransactionAPI[Transaction API]
-            Middleware2[Middleware Pipeline]
-        end
-        
-        subgraph "Application Layer"
-            AuthHandlers[Authentication Handlers]
-            UserHandlers[User Management Handlers]
-            TransactionHandlers2[Transaction Handlers]
-            NotificationHandlers[Notification Handlers]
-        end
-        
-        subgraph "Domain Layer"
-            UserEntity[User Entity]
-            RoleEntity[Role Entity]
-            TransactionEntity2[Transaction Entity]
-            WalletEntity[Wallet Entity]
-        end
-        
-        subgraph "Infrastructure Layer"
-            IdentityService[ASP.NET Identity]
-            PostgresRepo2[PostgreSQL Repositories]
-            MongoRepo2[MongoDB Repositories]
-            ServiceBusClient2[Service Bus Client]
-            BlobClient2[Blob Storage Client]
-            TokenService[JWT Token Service]
-        end
-    end
-    
-    AuthAPI --> AuthHandlers
-    UserAPI --> UserHandlers
-    TransactionAPI --> TransactionHandlers2
-    
-    AuthHandlers --> IdentityService
-    AuthHandlers --> TokenService
-    
-    UserHandlers --> UserEntity
-    TransactionHandlers2 --> TransactionEntity2
-    TransactionHandlers2 --> WalletEntity
-    
-    UserHandlers --> PostgresRepo2
-    TransactionHandlers2 --> PostgresRepo2
-    TransactionHandlers2 --> MongoRepo2
-    
-    NotificationHandlers --> ServiceBusClient2
+sequenceDiagram
+    autonumber
+    participant App  as Mobile App
+    participant UM   as UM Service
+    participant OCPP as OCPP Server
+    participant CP   as Charge Point
+
+    App->>UM: POST /api/um/auth/mobile/signup
+    UM->>UM: Create ApplicationUser + Docket
+    UM-->>App: JWT + refresh token
+    UM->>OCPP: POST /api/ocpp/tags/virtual (UserCreated event)
+    OCPP-->>UM: Virtual OCPP tag
+
+    App->>UM: GET /api/um/mobile/summary
+    UM->>OCPP: GET /api/ocpp/mobile/user/{id}/summary
+    OCPP-->>UM: balance / last session / totals
+    UM-->>App: UserSummaryResponse
+
+    App->>CP: Present tag (virtual or RFID)
+    CP->>OCPP: Authorize(idTag)
+    OCPP->>UM: Validate user + wallet balance
+    UM-->>OCPP: Authorised
+    OCPP-->>CP: Accepted
+
+    CP->>OCPP: StartTransaction / MeterValues / StopTransaction
+    OCPP->>OCPP: CostCalculationService.Calculate(...)
+    OCPP->>UM: Deduct wallet (WalletService.DeductForChargingAsync)
 ```
 
 ## Technology Stack
 
-### Backend Services (.NET)
+### Backend (both services)
 
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| Framework | .NET | 8.0 | Application runtime |
-| Web Framework | ASP.NET Core | 8.0 | Web API and WebSocket |
-| ORM | Entity Framework Core | 8.0 | Database access |
-| Identity | ASP.NET Identity | 8.0 | User authentication |
-| Logging | Serilog | Latest | Structured logging |
-| API Documentation | Swagger/OpenAPI | 3.0 | API documentation |
-| Testing | xUnit | Latest | Unit and integration tests |
+| Component             | Version                        |
+|----------------------|--------------------------------|
+| .NET                 | 9.0                            |
+| ASP.NET Core         | 9.0                            |
+| EF Core              | 9.0 (UM), 8.0 (OCPP)           |
+| PostgreSQL provider  | `Npgsql.EntityFrameworkCore.PostgreSQL` |
+| MediatR              | 12.4.1                         |
+| JWT Bearer           | `Microsoft.AspNetCore.Authentication.JwtBearer` |
+| Identity             | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 9 (UM only) |
+| Logging              | Serilog + `Serilog.Sinks.Seq`  |
+| API docs             | Swashbuckle (`UseSwaggerWithUi()`) |
+| Health checks        | `AspNetCore.HealthChecks.*` at `/health` |
 
-### Frontend (Admin Portal)
+### UM-only Infrastructure
 
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| Framework | React | 18 | UI framework |
-| Language | TypeScript | Latest | Type-safe development |
-| Build Tool | Vite | Latest | Fast builds and HMR |
-| UI Library | Material-UI (MUI) | 6.x | Component library |
-| State Management | Zustand | 5.x | Lightweight state management |
-| Data Fetching | TanStack Query | 5.x | Server state management |
-| HTTP Client | Axios | Latest | API communication |
-| Routing | React Router | 6.x | Client-side routing |
-| Charts | Recharts | 2.x | Data visualization |
+| Concern            | Package                          |
+|--------------------|----------------------------------|
+| Google Sign-In     | `Google.Apis.Auth` 1.68          |
+| Google OAuth       | `Microsoft.AspNetCore.Authentication.Google` |
+| Blob storage       | `Azure.Storage.Blobs` 12.23      |
+| Thumbnails         | `SixLabors.ImageSharp` 3.1       |
+| Service Bus        | `Azure.Messaging.ServiceBus` 7.18 |
+| Azure auth         | `Azure.Identity` 1.13            |
+| EF naming          | `EFCore.NamingConventions` (snake_case) |
+| Mongo driver (ref) | `MongoDB.Driver` 3.1 (referenced; no active DbContext in tree) |
 
-### Databases
+### Frontend (ChargeLK.AdminUI)
 
-| Database | Use Case | Data Type |
-|----------|----------|-----------|
-| PostgreSQL | Primary relational data | Users, charge points, transactions |
-| MongoDB | Time-series & documents | Meter values, logs, audit trails |
+| Component           | Version            |
+|---------------------|--------------------|
+| React               | 18.3               |
+| TypeScript          | 5.6                |
+| Vite                | 5.4                |
+| Material UI         | 6.1                |
+| `@mui/x-data-grid`  | 7.22               |
+| `@mui/x-date-pickers`| 7.22              |
+| Redux Toolkit       | 2.x                |
+| RTK Query           | (bundled)          |
+| redux-persist       | 6.x                |
+| react-router-dom    | 6.28               |
+| Recharts            | 2.14               |
+| framer-motion       | 12.23              |
+| notistack           | 3.0                |
+| qrcode.react        | 4.2                |
+| html2canvas         | 1.4                |
+| jspdf               | 3.0                |
 
-### Cloud Infrastructure (Azure)
+## Deployment Shape
 
-| Service | Purpose |
-|---------|---------|
-| Azure Service Bus | Message broker for event-driven communication |
-| Azure Blob Storage | Document and file storage |
-| Azure Container Registry | Docker image storage |
-| Azure App Service / AKS | Application hosting |
-| Azure Monitor | Application monitoring and logging |
+- **OCPP Server** — published via `.github/workflows/deploy.yml`: restore → build → test → publish → `dotnet ef migrations bundle` → SCP to server → run bundle → restart `chargelk-ocpp-imesh.service`. Migrations in production are applied by the bundle, not by `ApplyMigrations()` (Development-only).
+- **UM Service** — `Dockerfile` at solution root; intended to run containerised.
+- **Admin UI** — `Dockerfile` + `nginx.conf`; multi-stage Node build → nginx runtime.
 
-### DevOps & Tools
+## Cross-Cutting Concerns
 
-| Tool | Purpose |
-|------|---------|
-| Docker | Containerization |
-| Docker Compose | Local development orchestration |
-| Git | Version control |
-| GitHub Actions | CI/CD pipeline |
-
-## Architecture Patterns
-
-### 1. Clean Architecture (Backend Services)
-
-```
-┌─────────────────────────────────────────────┐
-│          Presentation Layer (API)           │
-│  - Controllers                              │
-│  - Middleware                               │
-│  - WebSocket Handlers                       │
-└────────────────┬────────────────────────────┘
-                 │
-┌────────────────▼────────────────────────────┐
-│        Application Layer                    │
-│  - Use Cases (Handlers)                     │
-│  - DTOs & Mapping                           │
-│  - Interfaces                               │
-└────────────────┬────────────────────────────┘
-                 │
-┌────────────────▼────────────────────────────┐
-│           Domain Layer                      │
-│  - Entities                                 │
-│  - Domain Events                            │
-│  - Business Rules                           │
-└────────────────┬────────────────────────────┘
-                 │
-┌────────────────▼────────────────────────────┐
-│       Infrastructure Layer                  │
-│  - Database Context                         │
-│  - Repositories                             │
-│  - External Services                        │
-│  - Message Bus                              │
-└─────────────────────────────────────────────┘
-```
-
-### 2. CQRS (Command Query Responsibility Segregation)
-
-Implemented using MediatR pattern:
-- **Commands**: Write operations (Create, Update, Delete)
-- **Queries**: Read operations (Get, List, Search)
-- Separate models for read and write operations
-
-### 3. Repository Pattern
-
-Abstracts data access logic:
-- Interface-based repositories in Application layer
-- Concrete implementations in Infrastructure layer
-- Enables testing with mock repositories
-
-### 4. Event-Driven Architecture
-
-Asynchronous communication between services:
-- Domain events published to Azure Service Bus
-- Event handlers subscribe to topics
-- Ensures loose coupling and scalability
-
-## Non-Functional Requirements
-
-### Performance
-- API response time: < 200ms (P95)
-- WebSocket message processing: < 50ms
-- Support 10,000+ concurrent WebSocket connections
-- Database query optimization with indexes
-
-### Scalability
-- Horizontal scaling of API services
-- Stateless service design
-- Database read replicas for query scaling
-- Message queue for async processing
-
-### Reliability
-- 99.9% uptime SLA
-- Automatic retry mechanisms
-- Circuit breaker pattern for external services
-- Health checks and monitoring
-
-### Security
-- TLS 1.2+ for all communications
-- JWT-based authentication
-- Role-based authorization
-- Input validation and sanitization
-- Rate limiting and DDoS protection
-
-### Maintainability
-- Clean code principles
-- Comprehensive documentation
-- Automated testing (Unit, Integration, E2E)
-- CI/CD automation
-- Logging and monitoring
+| Concern                | Where                                                                 |
+|------------------------|----------------------------------------------------------------------|
+| Request correlation    | `RequestContextLoggingMiddleware` (both services)                    |
+| Audit fields           | `AuditableEntitySaveChangesInterceptor` (UM) + `IAuditableEntity`    |
+| Validation             | `ValidationPipelineBehavior` (UM — MediatR behavior)                 |
+| Request logging        | `RequestLoggingPipelineBehavior` (UM — MediatR behavior)             |
+| Token validation       | Shared JWT scheme; `JwtSecurityTokenValidator` (UM)                  |
+| Permission resolution  | `PermissionClaimsTransformation` + `PermissionAuthorizationHandler`  |
+| Current user accessor  | `ICurrentUserService` / `CurrentUserService` (both services)         |
 
 ## Related Documentation
 
 - [Components Documentation](../03-Components/README.md)
+- [API Reference](../04-API-Reference/README.md)
 - [Data Architecture](../05-Data-Architecture/README.md)
-- [Infrastructure & Deployment](../06-Infrastructure/README.md)
-
+- [Infrastructure](../06-Infrastructure/README.md)
+- [Security](../08-Security/README.md)
